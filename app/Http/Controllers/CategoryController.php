@@ -26,9 +26,9 @@ class CategoryController extends Controller
     {
         // validate the request...
         $request->validate([
-            'name' =>'required',
-            'description' =>'required',
-            'image' =>'required|image|mimes:jpeg,png,jpg|max:2048',
+            'name' => 'required',
+            'description' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         // store the request...
@@ -36,16 +36,18 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->description = $request->description;
 
-        // save image...
+        // save image if exists...
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $image->storeAs('public/categories', $category->id. '.'. $image->getClientOriginalExtension());
-            $category->image ='storage/categories/'. $category->id. '.'. $image->getClientOriginalExtension();
-            $category->save();
+            $image->storeAs('public/categories', $category->id . '.' . $image->getClientOriginalExtension());
+            $category->image = 'storage/categories/' . $category->id . '.' . $image->getClientOriginalExtension();
         }
+
+        $category->save();
 
         return redirect()->route('categories.index')->with('success', 'Category created successfully');
     }
+
 
     // show
     public function show($id)
@@ -65,9 +67,9 @@ class CategoryController extends Controller
     {
         // validate the request...
         $request->validate([
-            'name' =>'required',
-            'description' =>'required',
-            'image' =>'required|image|mimes:jpeg,png,jpg|max:2048',
+            'name' => 'required',
+            'description' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         // Update the request...
@@ -78,8 +80,8 @@ class CategoryController extends Controller
         // save image...
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $image->storeAs('public/categories', $category->id. '.'. $image->getClientOriginalExtension());
-            $category->image ='storage/categories/'. $category->id. '.'. $image->getClientOriginalExtension();
+            $image->storeAs('public/categories', $category->id . '.' . $image->getClientOriginalExtension());
+            $category->image = 'storage/categories/' . $category->id . '.' . $image->getClientOriginalExtension();
             $category->save();
         }
 
