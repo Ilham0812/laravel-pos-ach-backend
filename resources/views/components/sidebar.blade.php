@@ -23,5 +23,17 @@
                         <a class="nav-link" href="{{ route('users.index') }}">User Dashboard</a>
                     </li>
                 </ul>
+
+                <ul class="dropdown-menu">
+                    <li class=''>
+                        <a class="nav-link" href="{{ route('products.index') }}">Product Dashboard</a>
+                    </li>
+                </ul>
+
+                <ul class="dropdown-menu">
+                    <li class=''>
+                        <a class="nav-link" href="{{ route('categories.index') }}">Category Dashboard</a>
+                    </li>
+                </ul>
             </li>
 </div>
