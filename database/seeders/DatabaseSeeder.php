@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 use Illuminate\support\facades\Hash;
 
@@ -20,6 +23,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'ilham.akbar@bakriemetal.co.id',
             'password' => Hash::make('12345678'),
             'role' => 'admin',
+        ]);
+
+        $this->call([
+            CategorySeeder::class,
+            ProductSeeder::class,
         ]);
     }
 }
