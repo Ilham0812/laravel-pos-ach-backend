@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Category;
+use App\Models\Product;
 
 class CategoryController extends Controller
 {
@@ -94,9 +95,31 @@ class CategoryController extends Controller
         $category = Category::find($id);
 
         if ($category) {
+            // Periksa apakah kategori digunakan oleh produk mana pun
+            $usedByProducts = Product::where('category_id', $id)->exists();
+
+            if ($usedByProducts) {
+                // Jika kategori digunakan oleh produk, tampilkan pesan peringatan menggunakan SweetAlert
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Cannot delete category. It is still used by some products.'
+                ], 400);
+            }
+
+            // Jika kategori tidak digunakan oleh produk, hapus kategorinya
             $category->delete();
+
+            // Tampilkan pesan sukses menggunakan SweetAlert
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Category deleted successfully'
+            ], 200);
         }
 
-        return redirect()->route('categories.index')->with('success', 'Category Deleted Successfully');
+        // Jika kategori tidak ditemukan, tampilkan pesan error menggunakan SweetAlert
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Category not found'
+        ], 404);
     }
 }

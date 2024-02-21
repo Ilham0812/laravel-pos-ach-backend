@@ -5,6 +5,8 @@
 @push('style')
     <!-- CSS Libraries -->
     <link rel="stylesheet" href="{{ asset('library/selectric/public/selectric.css') }}">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="{{ asset('library/sweetalert2/dist/sweetalert2.min.css') }}">
 @endpush
 
 @section('main')
@@ -69,24 +71,29 @@
                                                             <i class="fas fa-edit"></i>
                                                             Edit
                                                         </a>
+                                                        &nbsp;
+                                                        {{-- <form id="deleteForm{{ $category->id }}"
+                                                            action="{{ route('categories.destroy', $category->id) }}"
+                                                            {{-- method="POST" class="ml-2 delete-form"> --}}
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="btn btn-sm btn-danger btn-icon delete-category"
+                                                            data-id="{{ $category->id }}"
+                                                            onclick="confirmDelete({{ $category->id }})">
+                                                            <i class="fas fa-times"></i> Delete
+                                                        </button>
 
-                                                        <form action="{{ route('categories.destroy', $category->id) }}"
-                                                            method="POST" class="ml-2">
-                                                            <input type="hidden" name="_method" value="DELETE" />
-                                                            <input type="hidden" name="_token"
-                                                                value="{{ csrf_token() }}" />
-                                                            <button class="btn btn-sm btn-danger btn-icon confirm-delete">
-                                                                <i class="fas fa-times"></i> Delete
-                                                            </button>
-                                                        </form>
+
+                                                        {{-- </form> --}}
+
                                                     </div>
                                                 </td>
                                             </tr>
                                         @endforeach
 
-
                                     </table>
                                 </div>
+
                                 <div class="float-right">
                                     {{ $categories->withQueryString()->links() }}
                                 </div>
@@ -99,10 +106,59 @@
     </div>
 @endsection
 
+
 @push('scripts')
     <!-- JS Libraies -->
     <script src="{{ asset('library/selectric/public/jquery.selectric.min.js') }}"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="{{ asset('library/sweetalert2/dist/sweetalert2.min.js') }}"></script>
+    <script>
+        // Fungsi untuk menampilkan SweetAlert konfirmasi penghapusan
+        function confirmDelete(id) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'You will not be able to recover this category!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Menggunakan fetch untuk mengirimkan permintaan penghapusan
+            fetch(`/categories/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Menampilkan pesan dari response
+                Swal.fire({
+                    title: data.status.charAt(0).toUpperCase() + data.status.slice(1),
+                    text: data.message,
+                    icon: data.status
+                }).then(() => {
+                    // Reload halaman jika penghapusan berhasil
+                    if (data.status === 'success') {
+                        location.reload();
+                    }
+                });
+            })
+            .catch(error => {
+                // Menampilkan pesan error
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to delete category.',
+                    icon: 'error',
+                });
+            });
+        }
+    });
+}
 
-    <!-- Page Specific JS File -->
-    <script src="{{ asset('js/page/features-posts.js') }}"></script>
+    </script>
 @endpush
