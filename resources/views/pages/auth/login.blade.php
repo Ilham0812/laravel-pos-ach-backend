@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"
         name="viewport">
-    <title>Login &mdash; Stisla</title>
+    <title>Login &mdash; Acharne Cafe Manager System</title>
 
     <!-- General CSS Files -->
     <link rel="stylesheet"
@@ -36,7 +36,7 @@
                             alt="logo"
                             width="80"
                             class="shadow-light rounded-circle mb-5 mt-2">
-                        <h4 class="text-dark font-weight-normal">Welcome to <span class="font-weight-bold">Admin Login Dashboard</span>
+                        <h4 class="text-dark font-weight-normal">Welcome to <span class="font-weight-bold">Acharne Cafe Manager Login Dashboard</span>
                         </h4>
                         <p class="text-muted">Before you get started, you must login or register if you don't already
                             have an account.</p>
@@ -103,7 +103,7 @@
                         </form>
 
                         <div class="text-small mt-5 text-center">
-                            Copyright &copy; Your Company. Made with 💙 by Stisla
+                            Copyright &copy; Your Company. Develop by <a href="https://github.com/Ilham0812" target="blank_">IA</a>
                             <div class="mt-2">
                                 <a href="#">Privacy Policy</a>
                                 <div class="bullet"></div>
